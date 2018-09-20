@@ -1,40 +1,33 @@
+require('set-paths')
+local createPlayer = require('player')
+
 lg = love.graphics
 
-player = {
-  x=350,
-  y=275,
-  x=0,
-  y=0,
-  img=nil
+CONFIG = {
+  SPEED = 300
 }
-
-SPEED = 300
+ 
+local gameObjects = {}
 
 function love.load()
-  player.img = lg.newImage('images/spaceship.png')
+  ASSETS = {
+    images = {
+      player = lg.newImage('images/spaceship.png')
+    }
+  }
+
+  local player = createPlayer(gameObjects)
+  gameObjects[player] = player
 end
 
 function love.update(dt)
-  player.vx, player.vy = 0, 0
-
-  if love.keyboard.isDown('up') then
-     player.vy = player.vy - SPEED * dt
+  for _, obj in pairs(gameObjects) do
+    obj:update(dt)
   end
-  if love.keyboard.isDown('down') then
-     player.vy = player.vy + SPEED * dt
-  end
-  if love.keyboard.isDown('left') then
-     player.vx = player.vx - SPEED * dt
-  end
-  if love.keyboard.isDown('right') then
-     player.vx = player.vx + SPEED * dt
-  end
-
-  player.x = player.x + player.vx
-  player.y = player.y + player.vy
 end
 
 function love.draw()
-  lg.draw(player.img, player.x, player.y)
-  lg.print('Hi, Angie', 200, 200)
+  for _, obj in pairs(gameObjects) do
+    obj:draw()
+  end
 end
