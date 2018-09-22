@@ -45,6 +45,8 @@ local function createPlayer(gameObjects)
 
   setmetatable(player, { __index = Player })
 
+  gameObjects[player] = player
+
   return player
 end
 

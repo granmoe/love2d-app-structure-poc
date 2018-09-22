@@ -16,8 +16,7 @@ function love.load()
     }
   }
 
-  local player = createPlayer(gameObjects)
-  gameObjects[player] = player
+  createPlayer(gameObjects)
 end
 
 function love.update(dt)
